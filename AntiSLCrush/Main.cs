@@ -21,7 +21,7 @@ namespace AntiSLCrush
         public override string Name { get; } = PluginName;
         public override string Author { get; } = "ui_2506";
         public override string Description { get; } = PluginName;
-        public override Version Version { get; } = new Version(3, 2, 0);
+        public override Version Version { get; } = new Version(3, 2, 1);
         public override Version RequiredApiVersion { get; } = LabApi.Features.LabApiProperties.CurrentVersion;
         public override LoadPriority Priority { get; } = LoadPriority.Lowest;
 
