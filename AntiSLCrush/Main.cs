@@ -4,7 +4,6 @@
 
 global using Logger = LabApi.Features.Console.Logger;
 
-using AntiSLCrush.Events;
 using AntiSLCrush.Patches;
 using HarmonyLib;
 using LabApi.Loader.Features.Plugins;
@@ -34,8 +33,6 @@ namespace AntiSLCrush
             _harmony.PatchAll();
 
             LabApi.Events.Handlers.ServerEvents.RoundRestarted += OnTransportDataPatch.Clear;
-
-            RunInAds.Register();
         }
 
         public override void Disable()
@@ -43,8 +40,6 @@ namespace AntiSLCrush
             _harmony.UnpatchAll(_harmony.Id);
 
             LabApi.Events.Handlers.ServerEvents.RoundRestarted -= OnTransportDataPatch.Clear;
-
-            RunInAds.Unregister();
         }
 
         internal static void Log(string message, bool isError = false)
