@@ -4,7 +4,10 @@
 
 using HarmonyLib;
 using Mirror;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 
 namespace AntiSLCrush.Patches
 {
@@ -27,6 +30,25 @@ namespace AntiSLCrush.Patches
             }
 
             return false;
+        }
+
+        private static Exception Finalizer(int connectionId, Exception __exception)
+        {
+            if (__exception is not EndOfStreamException)
+                return __exception;
+
+            StackFrame[] frames = new StackTrace(__exception).GetFrames();
+
+            if (frames == null || !Array.Exists(frames, frame => frame.GetMethod()?.DeclaringType == typeof(Unbatcher) && frame.GetMethod().Name == nameof(Unbatcher.GetNextMessage)))
+                return __exception;
+
+            if (NetworkServer.connections.TryGetValue(connectionId, out NetworkConnectionToClient connection))
+                connection.Disconnect();
+            else
+                Transport.active?.ServerDisconnect(connectionId);
+
+            Main.Log($"[OnTransportDataPatch] Malformed packet from connectionId:{connectionId}, disconnecting (truncated batch).", true);
+            return null;
         }
 
         internal static void Clear() => _kickedList.Clear();
