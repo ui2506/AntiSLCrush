@@ -20,11 +20,17 @@ It adds additional protection and stability to your server.
 The SDK-style project targets .NET Framework 4.8. Install a .NET SDK with C# 12 or newer support and the .NET Framework 4.8 targeting pack.
 NuGet dependencies are restored through `PackageReference`.
 
-Build with the publicized game assemblies from your server version:
+Set the `SL_REFERENCES` environment variable to the directory containing the game assemblies from your server version. The project uses `$(SL_REFERENCES)` to resolve its game DLL references.
+
+For a build in the current PowerShell session:
 
 ```powershell
-dotnet build AntiSLCrush.sln -c Release -p:SL_REFERENCES="C:\path\to\game-assemblies"
+$env:SL_REFERENCES = "C:\path\to\game-assemblies"
+dotnet build AntiSLCrush.sln -c Release
 ```
 
 The assembly directory must contain `Assembly-CSharp-Publicized.dll`, `Mirror-Publicized.dll`, `UnityEngine.CoreModule-Publicized.dll`, `NorthwoodLib.dll`, and `Pooling.dll`.
+
+For Visual Studio, add `SL_REFERENCES` to your Windows user environment variables and restart Visual Studio so it picks up the value.
+
 The plugin is written to `AntiSLCrush/bin/Release/AntiSLCrush.dll`.
