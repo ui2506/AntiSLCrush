@@ -23,7 +23,7 @@ NuGet dependencies are restored through `PackageReference`.
 Build with the publicized game assemblies from your server version:
 
 ```powershell
-dotnet build AntiSLCrush.sln -c Release -p:GameReferencesPath="C:\path\to\game-assemblies"
+dotnet build AntiSLCrush.sln -c Release -p:SL_REFERENCES="C:\path\to\game-assemblies"
 ```
 
 The assembly directory must contain `Assembly-CSharp-Publicized.dll`, `Mirror-Publicized.dll`, `UnityEngine.CoreModule-Publicized.dll`, `NorthwoodLib.dll`, and `Pooling.dll`.
